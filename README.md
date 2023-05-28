@@ -6,7 +6,7 @@
 
 ----
 
-## How to use
+## How To Use
 
 Main function: `caller`, which is in `system_handler` module.
 Please insert the function the following input:
@@ -20,17 +20,17 @@ Please insert the function the following input:
 
 ## Exceptions
 
-###RE01
+### RE01
 - Request Error 01
 - Raised when not all necessary keys exists
 
-###RE02
+### RE02
 - Request Error 02
 - Raised when input schema is wrong
-###RE03 
+### RE03 
 - Request Error 03
 - Raised when input length is wrong
-###IE01
+### IE01
  - Internal Error 01
  - Raised when internal error occurs during Runner execution
 
