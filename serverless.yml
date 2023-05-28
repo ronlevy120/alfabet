@@ -1,0 +1,78 @@
+org: alfabet
+app: billing-system
+service: home-assignment
+
+
+package:
+  individually: true
+
+custom:
+  stages:
+    - local
+    - dev
+    - prod
+
+
+  efsAccessPoint: aaaa-bbbb
+  LocalMountPath: /mnt/access
+  subnetsId1: cccc-dddd
+  securityGroup: sg-12345
+
+
+provider:
+  name: aws
+  ACCOUNT_ID: ${aws:accountId}
+  runtime: python3.9
+  region: eu-central-1
+  environment:
+    STAGE: ${opt:stage, 'dev'}
+    MNT_DIR: ${self:custom.LocalMountPath}
+    REGION: ${self:provider.region}
+    AWS_ACCOUNT: "${aws:accountId}"
+    REQUIRED_PARAMS: "loan_id, string | dst_bank_account, string |  amount, integer"
+
+    HOST: "127.0.0.1"
+    USERNAME: "root"
+    PASSWORD: "1234"
+    DB: "alfabet"
+
+    SRC_BANK_ACCOUNT: "leumi"
+
+  iamRoleStatements:
+  - Effect: "Allow"
+    Action:
+    - "logs:*"
+    Resource:
+    - "arn:aws:logs:*:*:*"
+
+  - Effect: "Allow"
+    Action:
+      - "elasticfilesystem:ClientMount"
+      - "elasticfilesystem:ClientRootAccess"
+      - "elasticfilesystem:ClientWrite"
+      - "elasticfilesystem:DescribeMountTargets"
+    Resource:
+      - "*"
+
+functions:
+
+  initiator:
+    handler: src/system_handler.caller
+    provisionedConcurrency: 2
+    memorySize: 350
+
+    timeout: 100
+    events:
+      - http:
+          path: "perform_advance"
+          method: post
+          cors: true
+    vpc:
+      securityGroupIds:
+        - ${self:custom.securityGroup}
+      subnetIds:
+        - ${self:custom.subnetsId1}
+    fileSystemConfig:
+      arn: arn:aws:elasticfilesystem:${self:provider.region}:${aws:accountId}:access-point/${self:custom.efsAccessPoint}
+      localMountPath: ${self:custom.LocalMountPath}
+
