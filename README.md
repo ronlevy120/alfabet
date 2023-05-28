@@ -16,6 +16,7 @@ Please insert the function the following input:
 ```
 
 ## DB Structure
+
 ![images/billing system diagram.png](images/billing system diagram.png)
 
 ## Exceptions
