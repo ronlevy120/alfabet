@@ -1,31 +1,33 @@
-name: Python unittests
+# THIS TEST NEED AWS ACCOUNT NUMBER TO RUN
 
-on: [push]
-
-permissions:
-  id-token: write
-  contents: read
-
-jobs:
-  build:
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        role-to-assume: arn:aws:iam::123456789:role/github-actions-role
-        aws-region: eu-central-1
-    - uses: actions/checkout@v2
-    - name: Set up Python 3.9
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.9
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-    - name: Running Python Unit Tests
-      run: python -m unittest discover tests
-
+#name: Python unittests
+#
+#on: [push]
+#
+#permissions:
+#  id-token: write
+#  contents: read
+#
+#jobs:
+#  build:
+#
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#    - name: Configure AWS Credentials
+#      uses: aws-actions/configure-aws-credentials@v1
+#      with:
+#        role-to-assume: arn:aws:iam::123456789:role/github-actions-role
+#        aws-region: eu-central-1
+#    - uses: actions/checkout@v2
+#    - name: Set up Python 3.9
+#      uses: actions/setup-python@v2
+#      with:
+#        python-version: 3.9
+#    - name: Install dependencies
+#      run: |
+#        python -m pip install --upgrade pip
+#        pip install -r requirements.txt
+#    - name: Running Python Unit Tests
+#      run: python -m unittest discover tests
+#
